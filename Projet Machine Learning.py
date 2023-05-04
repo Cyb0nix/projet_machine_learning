@@ -57,14 +57,23 @@ print(df_fill.info())
 ###### RELATION ENTRE LES VARIABLES AVEC DES GRAPHIQUES ######
 
 # Histogramme
+df_fill.hist(figsize=(18,9))
 
 
+# Diragramme en boite
+fig, axes = plt.subplots(7, 5, figsize=(18, 9)) # 7 rows, 5 columns
 
-# Diagramme en boite
-
+for i, col in enumerate(df_fill.describe().columns): # enumerate() returns a tuple containing a count (from start which defaults to 0) and the values obtained from iterating over df.columns
+    ax = axes[i//5, i%5]
+    sns.boxplot(x=df_fill[col], ax=ax)
+    ax.set_title('{}'.format(col))
+    plt.tight_layout()
 
 
 # Graphiques de dispersion
+pd.plotting.scatter_matrix(df_fill, figsize=(18,9))
+
+plt.show()
 
 
 
