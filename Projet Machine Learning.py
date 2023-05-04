@@ -57,24 +57,21 @@ print(df_fill.info())
 ###### RELATION ENTRE LES VARIABLES AVEC DES GRAPHIQUES ######
 
 # Histogramme
-df_fill.hist(figsize=(18,9))
+# df_fill.hist(figsize=(18,9))
 
 
-# Diragramme en boite
-fig, axes = plt.subplots(7, 5, figsize=(18, 9)) # 7 rows, 5 columns
+# # Diragramme en boite
+# fig, axes = plt.subplots(7, 5, figsize=(18, 9)) # 7 rows, 5 columns
 
-for i, col in enumerate(df_fill.describe().columns): # enumerate() returns a tuple containing a count (from start which defaults to 0) and the values obtained from iterating over df.columns
-    ax = axes[i//5, i%5]
-    sns.boxplot(x=df_fill[col], ax=ax)
-    ax.set_title('{}'.format(col))
-    plt.tight_layout()
+# for i, col in enumerate(df_fill.describe().columns): # enumerate() returns a tuple containing a count (from start which defaults to 0) and the values obtained from iterating over df.columns
+#     ax = axes[i//5, i%5]
+#     sns.boxplot(x=df_fill[col], ax=ax)
+#     ax.set_title('{}'.format(col))
+#     plt.tight_layout()
 
 
-# Graphiques de dispersion
-pd.plotting.scatter_matrix(df_fill, figsize=(18,9))
-
-plt.show()
-
+# # Graphiques de dispersion
+# pd.plotting.scatter_matrix(df_fill, figsize=(18,9))
 
 
 ####### MATRICE DE CORRELATION #######
@@ -84,7 +81,6 @@ correlation_metrics=df_fill.corr()
 # Generation d'un masque pour le triangle supérieur (en laissant la diagonale)
 mask = np.zeros_like(correlation_metrics, dtype=bool)
 mask[np.triu_indices_from(mask)] = True
-
 
 # Setup de la figure matplotlib pour afficher la heatmap
 fig = plt.figure(figsize=(18,9))
@@ -100,17 +96,38 @@ sns.heatmap(correlation_metrics, cmap='RdBu',
             cbar_kws={"shrink": .70}, mask=mask)
 
 plt.title('Correlation Between Variables', size=14) 
-# plt.show()
+plt.show()
+
+
+# Interpréter les résultats de l’EDA pour identifier les caract´eristiques importantes qui influencent le prix de l’électricité et les relations significatives entre les variables
+
+
+#######################################
+###### MODELISATION DES DONNEES  ######
+#######################################
+
+# Régression linéaire simple
+
+
+
+# Régression Ridge
+
+
+
+# Régression Lasso
 
 
 
 
+# Méthode des k-means
 
-# plt.scatter(df['FR_TEMP'], df['DE_TEMP'], color = 'red')
-# plt.title('FR_TEMP en fonction de DE_TEMP')
-# plt.xlabel('température FR')
-# plt.ylabel('température DE')
-# plt.show()
+
+
+# Arbre de décision pour la régression
+
+
+
+
 
 
 
