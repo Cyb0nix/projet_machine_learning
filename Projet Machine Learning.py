@@ -57,21 +57,21 @@ print(df_fill.info())
 ###### RELATION ENTRE LES VARIABLES AVEC DES GRAPHIQUES ######
 
 # Histogramme
-# df_fill.hist(figsize=(18,9))
+df_fill.hist(figsize=(18,9))
 
 
-# # Diragramme en boite
-# fig, axes = plt.subplots(7, 5, figsize=(18, 9)) # 7 rows, 5 columns
+# Diragramme en boite
+fig, axes = plt.subplots(7, 5, figsize=(18, 9)) # 7 rows, 5 columns
 
-# for i, col in enumerate(df_fill.describe().columns): # enumerate() returns a tuple containing a count (from start which defaults to 0) and the values obtained from iterating over df.columns
-#     ax = axes[i//5, i%5]
-#     sns.boxplot(x=df_fill[col], ax=ax)
-#     ax.set_title('{}'.format(col))
-#     plt.tight_layout()
+for i, col in enumerate(df_fill.describe().columns): # enumerate() returns a tuple containing a count (from start which defaults to 0) and the values obtained from iterating over df.columns
+    ax = axes[i//5, i%5]
+    sns.boxplot(x=df_fill[col], ax=ax)
+    ax.set_title('{}'.format(col))
+    plt.tight_layout()
 
 
-# # Graphiques de dispersion
-# pd.plotting.scatter_matrix(df_fill, figsize=(18,9))
+# Graphiques de dispersion
+pd.plotting.scatter_matrix(df_fill, figsize=(18,9))
 
 
 ####### MATRICE DE CORRELATION #######
@@ -99,7 +99,8 @@ plt.title('Correlation Between Variables', size=14)
 plt.show()
 
 
-# Interpréter les résultats de l’EDA pour identifier les caract´eristiques importantes qui influencent le prix de l’électricité et les relations significatives entre les variables
+###### INTERPRETATION DES RESULTATS DE L'EDA ######
+# Interpréter les résultats de l’EDA pour identifier les caractéristiques importantes qui influencent le prix de l’électricité et les relations significatives entre les variables
 
 
 #######################################
