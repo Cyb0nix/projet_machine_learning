@@ -166,8 +166,8 @@ Ridge = Ridge(alpha=1)
 Ridge.fit(X_train_norm, y_train)
 
 # Faire des prédictions sur les données de test
-yRidge_pred = Ridge.predict(x_test)
-print("Ridge score : ", Ridge.score(x_test, y_test))
+yRidge_pred = Ridge.predict(X_test_norm)
+print("Ridge score : ", Ridge.score(X_test_norm, y_test))
 
 
 ###### Régression Lasso ######
