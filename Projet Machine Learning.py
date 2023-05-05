@@ -14,8 +14,8 @@ import warnings # ignore warnings
 warnings.filterwarnings('ignore')
 
 # Importation du dataset
-df = pd.read_csv('Data\Data_X.csv')
-Y = pd.read_csv('Data\Data_Y.csv')
+df = pd.read_csv('C:\Arthur\Efrei Paris\L3\Semestre 6\Intro apprentissage machine\Projet\projet_machine_learning\Data\Data_X.csv')
+Y = pd.read_csv('C:\Arthur\Efrei Paris\L3\Semestre 6\Intro apprentissage machine\Projet\projet_machine_learning\Data\Data_Y.csv')
 
 ####################################
 ###### Péparation des données ######
@@ -38,18 +38,16 @@ df.drop(['GAS_RET'], axis=1, inplace=True)
 df.drop(['COAL_RET'], axis=1, inplace=True)
 df.drop(['CARBON_RET'], axis=1, inplace=True)
 df.drop(['DE_FR_EXCHANGE'], axis=1, inplace=True)
-df.drop(['FR_DE_EXCHANGE'], axis=1, inplace=True)
+df.drop(['FR_DE_EXCHANGE'], axis=1, inplace=True) 
+
 
 #remplace les valeurs null par la moyenne de la colonne
 df_fill = df.fillna(df.mean())
 
 #Normalisation des données
-scaler = MinMaxScaler() 
-for element in df_fill.columns:
-     if element != 'ID':
-         df_fill[element] = scaler.fit_transform(df_fill[[element]])
+# scaler = MinMaxScaler() 
 
-print("\n\nDatas normalisées : \n", df_fill)
+# print("\n\nDatas normalisées : \n", df_fill)
 
 
 
@@ -118,27 +116,54 @@ print(df_fill.info())
 #######################################
 ###### MODELISATION DES DONNEES  ######
 #######################################
+from sklearn.preprocessing import StandardScaler
+
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Lasso
 from sklearn.linear_model import Ridge
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 
-x_train, x_test, y_train, y_test = train_test_split(df_fill, Y, test_size=0.2, random_state=0)
+x_train, x_test, y_train, y_test = train_test_split(df_fill, Y, test_size=0.3, random_state=21)
+
+
+###### Normalisation des données ######
+
+# Initialize the StandardScaler function
+df_fill = StandardScaler()
+
+# Fit the StandardScaler on the trainig set
+df_fill.fit(x_train)
+
+# Standardization of the training set
+X_train_norm = df_fill.transform(x_train)
+
+# Standardization of the validation set
+X_test_norm = df_fill.transform(x_test)
+
 
 
 ###### Régression linéaire simple ######
 
+# Créer un objet de modèle de régression linéaire
+lin = LinearRegression()
+
+# Entraîner le modèle sur les données d'entraînement
+lin.fit(X_train_norm, y_train)
+
+# Faire des prédictions sur les données de test
+y_lin_pred = lin.predict(X_test_norm)
+print("Linear score : ", lin.score(X_test_norm, y_test))
 
 
 
 ###### Régression Ridge ######
 
 # Créer un objet de modèle de régression Ridge
-Ridge = Ridge(alpha=0.2, random_state=123) 
+Ridge = Ridge(alpha=1) 
 
 # Entraîner le modèle sur les données d'entraînement
-Ridge.fit(x_train, y_train)
+Ridge.fit(X_train_norm, y_train)
 
 # Faire des prédictions sur les données de test
 yRidge_pred = Ridge.predict(x_test)
@@ -148,14 +173,14 @@ print("Ridge score : ", Ridge.score(x_test, y_test))
 ###### Régression Lasso ######
 
 # Créer un objet de modèle de régression Lasso
-Lasso = Lasso(alpha=0.2, random_state=123)
+Lasso = Lasso(alpha=1)
 
 # Entraîner le modèle sur les données d'entraînement
-Lasso.fit(x_train, y_train)
+Lasso.fit(X_train_norm, y_train)
 
 # Faire des prédictions sur les données de test
-yLasso_pred = Lasso.predict(x_test)
-print("Lasso score : ", Lasso.score(x_test, y_test))
+yLasso_pred = Lasso.predict(X_test_norm)
+print("Lasso score : ", Lasso.score(X_test_norm, y_test))
 
 
 
@@ -176,17 +201,17 @@ print("k-NN score : ", knn.score(x_test, y_test))
 
 
 
-###### Arbre de décision pour la régression ######
+# ###### Arbre de décision pour la régression ######
 
-# Créer un objet de modèle d'arbre de décision
-reg = DecisionTreeRegressor()
+# # Créer un objet de modèle d'arbre de décision
+# reg = DecisionTreeRegressor()
 
-# Entraîner le modèle sur les données d'entraînement
-reg.fit(x_train, y_train)
+# # Entraîner le modèle sur les données d'entraînement
+# reg.fit(x_train, y_train)
 
-# Faire des prédictions sur les données de test
-yTree_pred = reg.predict(x_test)
-print("Decision Tree score : ", reg.score(x_test, y_test))
+# # Faire des prédictions sur les données de test
+# yTree_pred = reg.predict(x_test)
+# print("Decision Tree score : ", reg.score(x_test, y_test))
 
 
 #######################################
@@ -200,25 +225,28 @@ from scipy.stats import spearmanr
 
 # Calculer l'erreur quadratique moyenne (RMSE)
 # print("RMSE pour la régression linéaire : ", np.sqrt(mean_squared_error(y_test, lin_y_pred)))
+# print("RMSE pour la régression linéaire : ", np.sqrt(mean_squared_error(y_test, lin_y_pred)))
 print("RMSE pour la régression Ridge : ", np.sqrt(mean_squared_error(y_test, yRidge_pred)))
 print("RMSE pour la régression Lasso : ", np.sqrt(mean_squared_error(y_test, yLasso_pred)))
-print("RMSE pour la méthode des k-NN : ", np.sqrt(mean_squared_error(y_test, yKNN_pred)))
-print("RMSE pour l'arbre de décision : ", np.sqrt(mean_squared_error(y_test, yTree_pred)))
+# print("RMSE pour la méthode des k-NN : ", np.sqrt(mean_squared_error(y_test, yKNN_pred)))
+# print("RMSE pour l'arbre de décision : ", np.sqrt(mean_squared_error(y_test, yTree_pred)))
 
 
 # Calculer le coefficient de détermination (R2)
 # print("R2 pour la régression linéaire : ", r2_score(y_test, lin_y_pred))
 print("R2 pour la régression Ridge : ", r2_score(y_test, yRidge_pred))
 print("R2 pour la régression Lasso : ", r2_score(y_test, yLasso_pred))
-print("R2 pour la méthode des k-NN : ", r2_score(y_test, yKNN_pred))
-print("R2 pour l'arbre de décision : ", r2_score(y_test, yTree_pred))
+# print("R2 pour la méthode des k-NN : ", r2_score(y_test, yKNN_pred))
+# print("R2 pour l'arbre de décision : ", r2_score(y_test, yTree_pred))
+
 
 # Calculer la correlation de sperman
-# print("Spearman pour la régression linéaire : ", spearmanr(y_test, lin_y_pred))
+from scipy.stats import spearmanr
+print("Spearman pour la régression linéaire : ", spearmanr(y_test, lin_y_pred))
 print("Spearman pour la régression Ridge : ", spearmanr(y_test, yRidge_pred))
 print("Spearman pour la régression Lasso : ", spearmanr(y_test, yLasso_pred))
-print("Spearman pour la méthode des k-NN : ", spearmanr(y_test, yKNN_pred))
-print("Spearman pour l'arbre de décision : ", spearmanr(y_test, yTree_pred))
+# print("Spearman pour la méthode des k-NN : ", spearmanr(y_test, yKNN_pred))
+# print("Spearman pour l'arbre de décision : ", spearmanr(y_test, yTree_pred))
 
 
 
