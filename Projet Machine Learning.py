@@ -4,6 +4,8 @@ import pandas as pd #data manipulation and analysis
 import seaborn as sns #data visualization
 import matplotlib as matplotlib #data visualization
 import matplotlib.pyplot as plt
+from sklearn import preprocessing
+from sklearn.discriminant_analysis import StandardScaler
 matplotlib.use('TkAgg')
 from sklearn.preprocessing import MinMaxScaler #data normalization
 from sklearn.model_selection import train_test_split #data split
@@ -27,7 +29,6 @@ print("\nNbr valeur null : \n", df.isnull().sum())
 
 #supprimer varable inutile
 df.drop(['COUNTRY'], axis=1, inplace=True) 
-df.drop(['ID'], axis=1, inplace=True) 
 df.drop(['DAY_ID'], axis=1, inplace=True) 
 df.drop(['FR_TEMP'], axis=1, inplace=True) 
 df.drop(['DE_TEMP'], axis=1, inplace=True) 
@@ -120,7 +121,7 @@ print(df_fill.info())
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Lasso
 from sklearn.linear_model import Ridge
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neighbors import KNeighborsRegressor
 from sklearn.tree import DecisionTreeRegressor
 
 x_train, x_test, y_train, y_test = train_test_split(df_fill, Y, test_size=0.2, random_state=0)
@@ -140,7 +141,7 @@ Ridge = Ridge(alpha=0.2, random_state=123)
 Ridge.fit(x_train, y_train)
 
 # Faire des prédictions sur les données de test
-yRidge_pred = Ridge.predict(x_train)
+yRidge_pred = Ridge.predict(x_test)
 print("Ridge score : ", Ridge.score(x_test, y_test))
 
 
@@ -158,18 +159,20 @@ print("Lasso score : ", Lasso.score(x_test, y_test))
 
 
 
-###### Méthode des k-NN ######
+###### Méthode régression k-NN ######
 
-# Créer un classificateur KNN avec k=5
-knn = KNeighborsClassifier(n_neighbors=5)
+# Créer un objet de modèle de régression k-NN
+knn = KNeighborsRegressor(n_neighbors=5)
 
-# Entrainer le modèle sur les données d'entraînement
+# Entraîner le modèle sur les données d'entraînement
 knn.fit(x_train, y_train)
 
 # Faire des prédictions sur les données de test
-
 yKNN_pred = knn.predict(x_test)
-print("KNN score : ", knn.score(x_test, y_test))
+print("k-NN score : ", knn.score(x_test, y_test))
+
+
+
 
 
 
@@ -192,10 +195,11 @@ print("Decision Tree score : ", reg.score(x_test, y_test))
 
 from sklearn.metrics import mean_squared_error #evaluation metrics
 from sklearn.metrics import r2_score #evaluation metrics
+from scipy.stats import spearmanr
 
 
 # Calculer l'erreur quadratique moyenne (RMSE)
-print("RMSE pour la régression linéaire : ", np.sqrt(mean_squared_error(y_test, lin_y_pred)))
+# print("RMSE pour la régression linéaire : ", np.sqrt(mean_squared_error(y_test, lin_y_pred)))
 print("RMSE pour la régression Ridge : ", np.sqrt(mean_squared_error(y_test, yRidge_pred)))
 print("RMSE pour la régression Lasso : ", np.sqrt(mean_squared_error(y_test, yLasso_pred)))
 print("RMSE pour la méthode des k-NN : ", np.sqrt(mean_squared_error(y_test, yKNN_pred)))
@@ -203,15 +207,14 @@ print("RMSE pour l'arbre de décision : ", np.sqrt(mean_squared_error(y_test, yT
 
 
 # Calculer le coefficient de détermination (R2)
-print("R2 pour la régression linéaire : ", r2_score(y_test, lin_y_pred))
+# print("R2 pour la régression linéaire : ", r2_score(y_test, lin_y_pred))
 print("R2 pour la régression Ridge : ", r2_score(y_test, yRidge_pred))
 print("R2 pour la régression Lasso : ", r2_score(y_test, yLasso_pred))
 print("R2 pour la méthode des k-NN : ", r2_score(y_test, yKNN_pred))
 print("R2 pour l'arbre de décision : ", r2_score(y_test, yTree_pred))
 
 # Calculer la correlation de sperman
-from scipy.stats import spearmanr
-print("Spearman pour la régression linéaire : ", spearmanr(y_test, lin_y_pred))
+# print("Spearman pour la régression linéaire : ", spearmanr(y_test, lin_y_pred))
 print("Spearman pour la régression Ridge : ", spearmanr(y_test, yRidge_pred))
 print("Spearman pour la régression Lasso : ", spearmanr(y_test, yLasso_pred))
 print("Spearman pour la méthode des k-NN : ", spearmanr(y_test, yKNN_pred))
