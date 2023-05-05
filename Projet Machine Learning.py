@@ -12,7 +12,7 @@ warnings.filterwarnings('ignore')
 
 # Importation du dataset
 df = pd.read_csv('C:\Arthur\Efrei Paris\L3\Semestre 6\Intro apprentissage machine\Projet\projet_machine_learning\Data\Data_X.csv')
-
+Y = pd.read_csv('C:\Arthur\Efrei Paris\L3\Semestre 6\Intro apprentissage machine\Projet\projet_machine_learning\Data\Data_Y.csv')
 
 ####################################
 ###### Péparation des données ######
@@ -24,9 +24,21 @@ print("Statistique de df : ", df.describe())
 # Affichage du nombre de valeur null par colonne
 print("\nNbr valeur null : \n", df.isnull().sum()) 
 
-#supprimer les lignes avec des valeurs 'DE' dans la colonne 'COUNTRY' ainsi que la colonne 'COUNTRY'
-df1 = df[df.COUNTRY != 'DE']
-df.drop(['COUNTRY'], axis=1, inplace=True)
+#supprimer les lignes avec des valeurs 'DE' dans la colonne 'COUNTRY' car redondances
+df = df[df.COUNTRY != 'DE']
+#supprimer varable inutile
+df.drop(['COUNTRY'], axis=1, inplace=True) 
+df.drop(['ID'], axis=1, inplace=True) 
+df.drop(['DAY_ID'], axis=1, inplace=True) 
+df.drop(['FR_TEMP'], axis=1, inplace=True) 
+df.drop(['DE_TEMP'], axis=1, inplace=True) 
+df.drop(['FR_RAIN'], axis=1, inplace=True)
+df.drop(['DE_RAIN'], axis=1, inplace=True)
+df.drop(['GAS_RET'], axis=1, inplace=True)
+df.drop(['COAL_RET'], axis=1, inplace=True)
+df.drop(['CARBON_RET'], axis=1, inplace=True)
+df.drop(['DE_FR_EXCHANGE'], axis=1, inplace=True)
+df.drop(['FR_DE_EXCHANGE'], axis=1, inplace=True)
 
 #remplace les valeurs null par la moyenne de la colonne
 df_fill = df.fillna(df.mean())
