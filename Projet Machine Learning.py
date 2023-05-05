@@ -157,7 +157,7 @@ knn = KNeighborsClassifier(n_neighbors=5)
 knn.fit(x_train, y_train)
 
 # Faire des prédictions sur les données de test
-y_pred = knn.predict(x_test)
+knn_y_pred = knn.predict(x_test)
 
 
 # Arbre de décision pour la régression
@@ -169,7 +169,9 @@ reg = DecisionTreeRegressor()
 reg.fit(x_train, y_train)
 
 # Faire des prédictions sur les données de test
-y_pred = reg.predict(x_test)
+reg_y_pred = reg.predict(x_test)
+
+
 
 
 
