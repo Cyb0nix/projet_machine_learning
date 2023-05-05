@@ -224,7 +224,6 @@ print("R2 pour l'arbre de décision : ", r2_score(y_test, yTree_pred))
 
 
 # Calculer la correlation de sperman
-from scipy.stats import spearmanr
 print("\nSpearman pour la régression linéaire : ", spearmanr(y_test, yLin_pred))
 print("Spearman pour la régression Ridge : ", spearmanr(y_test, yRidge_pred))
 print("Spearman pour la régression Lasso : ", spearmanr(y_test, yLasso_pred))
