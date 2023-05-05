@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 matplotlib.use('TkAgg')
 from sklearn.preprocessing import MinMaxScaler #data normalization
 from sklearn.model_selection import train_test_split #data split
-from sklearn.metrics import mean_squared_error #evaluation metric
 import sklearn.cluster as skc #machine learning (clustering)
 import warnings # ignore warnings
 warnings.filterwarnings('ignore')
@@ -185,6 +184,39 @@ reg.fit(x_train, y_train)
 # Faire des prédictions sur les données de test
 yTree_pred = reg.predict(x_test)
 print("Decision Tree score : ", reg.score(x_test, y_test))
+
+
+#######################################
+###### Evaluation des méthodes  ######
+#######################################
+
+from sklearn.metrics import mean_squared_error #evaluation metrics
+from sklearn.metrics import r2_score #evaluation metrics
+
+
+# Calculer l'erreur quadratique moyenne (RMSE)
+print("RMSE pour la régression linéaire : ", np.sqrt(mean_squared_error(y_test, lin_y_pred)))
+print("RMSE pour la régression Ridge : ", np.sqrt(mean_squared_error(y_test, yRidge_pred)))
+print("RMSE pour la régression Lasso : ", np.sqrt(mean_squared_error(y_test, yLasso_pred)))
+print("RMSE pour la méthode des k-NN : ", np.sqrt(mean_squared_error(y_test, yKNN_pred)))
+print("RMSE pour l'arbre de décision : ", np.sqrt(mean_squared_error(y_test, yTree_pred)))
+
+
+# Calculer le coefficient de détermination (R2)
+print("R2 pour la régression linéaire : ", r2_score(y_test, lin_y_pred))
+print("R2 pour la régression Ridge : ", r2_score(y_test, yRidge_pred))
+print("R2 pour la régression Lasso : ", r2_score(y_test, yLasso_pred))
+print("R2 pour la méthode des k-NN : ", r2_score(y_test, yKNN_pred))
+print("R2 pour l'arbre de décision : ", r2_score(y_test, yTree_pred))
+
+# Calculer la correlation de sperman
+from scipy.stats import spearmanr
+print("Spearman pour la régression linéaire : ", spearmanr(y_test, lin_y_pred))
+print("Spearman pour la régression Ridge : ", spearmanr(y_test, yRidge_pred))
+print("Spearman pour la régression Lasso : ", spearmanr(y_test, yLasso_pred))
+print("Spearman pour la méthode des k-NN : ", spearmanr(y_test, yKNN_pred))
+print("Spearman pour l'arbre de décision : ", spearmanr(y_test, yTree_pred))
+
 
 
 
