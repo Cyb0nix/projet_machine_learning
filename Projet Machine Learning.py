@@ -14,8 +14,8 @@ import warnings # ignore warnings
 warnings.filterwarnings('ignore')
 
 # Importation du dataset
-df = pd.read_csv('C:\Arthur\Efrei Paris\L3\Semestre 6\Intro apprentissage machine\Projet\projet_machine_learning\Data\Data_X.csv')
-Y = pd.read_csv('C:\Arthur\Efrei Paris\L3\Semestre 6\Intro apprentissage machine\Projet\projet_machine_learning\Data\Data_Y.csv')
+df = pd.read_csv('Data\Data_X.csv')
+Y = pd.read_csv('Data\Data_Y.csv')
 
 ####################################
 ###### Péparation des données ######
@@ -201,17 +201,17 @@ print("k-NN score : ", knn.score(x_test, y_test))
 
 
 
-# ###### Arbre de décision pour la régression ######
+###### Arbre de décision pour la régression ######
 
-# # Créer un objet de modèle d'arbre de décision
-# reg = DecisionTreeRegressor()
+# Créer un objet de modèle d'arbre de décision
+reg = DecisionTreeRegressor()
 
-# # Entraîner le modèle sur les données d'entraînement
-# reg.fit(x_train, y_train)
+# Entraîner le modèle sur les données d'entraînement
+reg.fit(x_train, y_train)
 
-# # Faire des prédictions sur les données de test
-# yTree_pred = reg.predict(x_test)
-# print("Decision Tree score : ", reg.score(x_test, y_test))
+# Faire des prédictions sur les données de test
+yTree_pred = reg.predict(x_test)
+print("Decision Tree score : ", reg.score(x_test, y_test))
 
 
 #######################################
