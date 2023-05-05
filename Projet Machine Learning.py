@@ -3,7 +3,7 @@ import numpy as np #linear algebra
 import pandas as pd #data manipulation and analysis
 import seaborn as sns #data visualization
 import matplotlib as matplotlib #data visualization
-import matplotlib.pyplot as plt #data visualization
+import matplotlib.pyplot as plt
 matplotlib.use('TkAgg')
 from sklearn.preprocessing import MinMaxScaler #data normalization
 from sklearn.model_selection import train_test_split #data split
@@ -13,8 +13,8 @@ import warnings # ignore warnings
 warnings.filterwarnings('ignore')
 
 # Importation du dataset
-df = pd.read_csv('C:\Arthur\Efrei Paris\L3\Semestre 6\Intro apprentissage machine\Projet\projet_machine_learning\Data\Data_X.csv')
-Y = pd.read_csv('C:\Arthur\Efrei Paris\L3\Semestre 6\Intro apprentissage machine\Projet\projet_machine_learning\Data\Data_Y.csv')
+df = pd.read_csv('Data\Data_X.csv')
+Y = pd.read_csv('Data\Data_Y.csv')
 
 ####################################
 ###### Péparation des données ######
@@ -121,9 +121,11 @@ print(df_fill.info())
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Lasso
 from sklearn.linear_model import Ridge
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeRegressor
 
 
-x_train, x_test, y_train, y_test = train_test_split(df_fill, Y, test_size=0.25, random_state=21, stratify=Y)
+x_train, x_test, y_train, y_test = train_test_split(df_fill, Y, test_size=0.2, random_state=0)
 
 print("Dimension x_train : "+str(x_train.shape))
 print("Dimension x_test : "+str(x_test.shape))
@@ -133,6 +135,7 @@ print("Dimension y_test : "+str(y_test.shape))
 
 
 # Régression linéaire simple
+
 
 
 
@@ -147,9 +150,26 @@ print("Dimension y_test : "+str(y_test.shape))
 
 # Méthode des k-NN
 
+# Créer un classificateur KNN avec k=5
+knn = KNeighborsClassifier(n_neighbors=5)
+
+# Entrainer le modèle sur les données d'entraînement
+knn.fit(x_train, y_train)
+
+# Faire des prédictions sur les données de test
+y_pred = knn.predict(x_test)
 
 
 # Arbre de décision pour la régression
+
+# Créer un objet de modèle d'arbre de décision
+reg = DecisionTreeRegressor()
+
+# Entraîner le modèle sur les données d'entraînement
+reg.fit(x_train, y_train)
+
+# Faire des prédictions sur les données de test
+y_pred = reg.predict(x_test)
 
 
 
