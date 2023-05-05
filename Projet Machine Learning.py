@@ -224,8 +224,7 @@ from scipy.stats import spearmanr
 
 
 # Calculer l'erreur quadratique moyenne (RMSE)
-# print("RMSE pour la régression linéaire : ", np.sqrt(mean_squared_error(y_test, lin_y_pred)))
-# print("RMSE pour la régression linéaire : ", np.sqrt(mean_squared_error(y_test, lin_y_pred)))
+# print("RMSE pour la régression linéaire : ", np.sqrt(mean_squared_error(y_test, y_lin_pred)))
 print("RMSE pour la régression Ridge : ", np.sqrt(mean_squared_error(y_test, yRidge_pred)))
 print("RMSE pour la régression Lasso : ", np.sqrt(mean_squared_error(y_test, yLasso_pred)))
 # print("RMSE pour la méthode des k-NN : ", np.sqrt(mean_squared_error(y_test, yKNN_pred)))
@@ -233,7 +232,7 @@ print("RMSE pour la régression Lasso : ", np.sqrt(mean_squared_error(y_test, yL
 
 
 # Calculer le coefficient de détermination (R2)
-# print("R2 pour la régression linéaire : ", r2_score(y_test, lin_y_pred))
+# print("R2 pour la régression linéaire : ", r2_score(y_test, y_lin_pred))
 print("R2 pour la régression Ridge : ", r2_score(y_test, yRidge_pred))
 print("R2 pour la régression Lasso : ", r2_score(y_test, yLasso_pred))
 # print("R2 pour la méthode des k-NN : ", r2_score(y_test, yKNN_pred))
@@ -242,7 +241,7 @@ print("R2 pour la régression Lasso : ", r2_score(y_test, yLasso_pred))
 
 # Calculer la correlation de sperman
 from scipy.stats import spearmanr
-print("Spearman pour la régression linéaire : ", spearmanr(y_test, lin_y_pred))
+print("Spearman pour la régression linéaire : ", spearmanr(y_test, y_lin_pred))
 print("Spearman pour la régression Ridge : ", spearmanr(y_test, yRidge_pred))
 print("Spearman pour la régression Lasso : ", spearmanr(y_test, yLasso_pred))
 # print("Spearman pour la méthode des k-NN : ", spearmanr(y_test, yKNN_pred))
