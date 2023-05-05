@@ -124,31 +124,42 @@ from sklearn.linear_model import Ridge
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeRegressor
 
-
 x_train, x_test, y_train, y_test = train_test_split(df_fill, Y, test_size=0.2, random_state=0)
 
-print("Dimension x_train : "+str(x_train.shape))
-print("Dimension x_test : "+str(x_test.shape))
 
-print("Dimension y_train : "+str(y_train.shape))
-print("Dimension y_test : "+str(y_test.shape))
-
-
-# Régression linéaire simple
+###### Régression linéaire simple ######
 
 
 
 
-# Régression Ridge
+###### Régression Ridge ######
+
+# Créer un objet de modèle de régression Ridge
+Ridge = Ridge(alpha=0.2, random_state=123) 
+
+# Entraîner le modèle sur les données d'entraînement
+Ridge.fit(x_train, y_train)
+
+# Faire des prédictions sur les données de test
+yRidge_pred = Ridge.predict(x_train)
+print("Ridge score : ", Ridge.score(x_test, y_test))
+
+
+###### Régression Lasso ######
+
+# Créer un objet de modèle de régression Lasso
+Lasso = Lasso(alpha=0.2, random_state=123)
+
+# Entraîner le modèle sur les données d'entraînement
+Lasso.fit(x_train, y_train)
+
+# Faire des prédictions sur les données de test
+yLasso_pred = Lasso.predict(x_test)
+print("Lasso score : ", Lasso.score(x_test, y_test))
 
 
 
-# Régression Lasso
-
-
-
-
-# Méthode des k-NN
+###### Méthode des k-NN ######
 
 # Créer un classificateur KNN avec k=5
 knn = KNeighborsClassifier(n_neighbors=5)
@@ -157,10 +168,11 @@ knn = KNeighborsClassifier(n_neighbors=5)
 knn.fit(x_train, y_train)
 
 # Faire des prédictions sur les données de test
-y_pred = knn.predict(x_test)
+yKNN_pred = knn.predict(x_test)
+print("KNN score : ", knn.score(x_test, y_test))
 
 
-# Arbre de décision pour la régression
+###### Arbre de décision pour la régression ######
 
 # Créer un objet de modèle d'arbre de décision
 reg = DecisionTreeRegressor()
@@ -169,7 +181,8 @@ reg = DecisionTreeRegressor()
 reg.fit(x_train, y_train)
 
 # Faire des prédictions sur les données de test
-y_pred = reg.predict(x_test)
+yTree_pred = reg.predict(x_test)
+print("Decision Tree score : ", reg.score(x_test, y_test))
 
 
 
