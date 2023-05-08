@@ -13,8 +13,8 @@ import sklearn.cluster as skc #machine learning (clustering)
 
 
 # Importation du dataset
-df = pd.read_csv('Data\Data_X.csv')
-Y = pd.read_csv('Data\Data_Y.csv')
+df = pd.read_csv('C:\Arthur\Efrei Paris\L3\Semestre 6\Intro apprentissage machine\Projet\projet_machine_learning\Data\Data_X.csv')
+Y = pd.read_csv('C:\Arthur\Efrei Paris\L3\Semestre 6\Intro apprentissage machine\Projet\projet_machine_learning\Data\Data_Y.csv')
 
 
 ####################################
@@ -30,7 +30,6 @@ print("\nNbr valeur null : \n", df.isnull().sum())
 #supprimer varable inutile
 df.drop(['COUNTRY'], axis=1, inplace=True) 
 df.drop(['DAY_ID'], axis=1, inplace=True) 
-df.drop(['ID'], axis=1, inplace=True)
 df.drop(['FR_TEMP'], axis=1, inplace=True) 
 df.drop(['DE_TEMP'], axis=1, inplace=True) 
 df.drop(['FR_RAIN'], axis=1, inplace=True)
@@ -155,7 +154,7 @@ yRidge_pred = Ridge.predict(x_test)
 ###### Régression Lasso ######
 
 # Créer un objet de modèle de régression Lasso
-Lasso = Lasso(alpha=0.1)
+Lasso = Lasso(alpha=0)
 
 # Entraîner le modèle sur les données d'entraînement
 Lasso.fit(x_train, y_train)
@@ -168,7 +167,7 @@ yLasso_pred = Lasso.predict(x_test)
 ###### Méthode régression k-NN ######
 
 # Créer un objet de modèle de régression k-NN
-knn = KNeighborsRegressor(n_neighbors=8)
+knn = KNeighborsRegressor(n_neighbors=24)
 
 # Entraîner le modèle sur les données d'entraînement
 knn.fit(x_train, y_train)
@@ -181,7 +180,7 @@ yKNN_pred = knn.predict(x_test)
 ###### Arbre de décision pour la régression ######
 
 # Créer un objet de modèle d'arbre de décision
-reg = DecisionTreeRegressor()
+reg = DecisionTreeRegressor(max_depth=4)
 
 # Entraîner le modèle sur les données d'entraînement
 reg.fit(x_train, y_train)
@@ -245,90 +244,90 @@ print("pval \n: ", pval)
 ######  Optimisation des hyperparamètres pour la régression  ######
 ###################################################################
 
-from sklearn.model_selection import GridSearchCV
+# from sklearn.model_selection import GridSearchCV
 
-# Créer un objet de modèle de régression Ridge
-Ridge2 = Ridge()
+# # Créer un objet de modèle de régression Ridge
+# Ridge2 = Ridge()
 
-# Créer un dictionnaire de valeurs d'hyperparamètres
-param_grid = {'alpha': np.arange(0, 1, 0.1)}
+# # Créer un dictionnaire de valeurs d'hyperparamètres
+# param_grid = {'alpha': np.arange(0, 1, 0.1)}
 
-# Créer un objet de recherche sur grille
-Ridge_gscv = GridSearchCV(Ridge2, param_grid, cv=5)
+# # Créer un objet de recherche sur grille
+# Ridge_gscv = GridSearchCV(Ridge2, param_grid, cv=5)
 
-# Ajuster l'objet de recherche sur grille aux données d'entraînement
-Ridge_gscv.fit(x_train, y_train)
+# # Ajuster l'objet de recherche sur grille aux données d'entraînement
+# Ridge_gscv.fit(x_train, y_train)
 
-# Afficher les meilleurs paramètres après optimisation
-print("Meilleurs paramètres pour la régression Ridge : ", Ridge_gscv.best_params_)
-print("Meilleur score pour la régression Ridge : ", Ridge_gscv.best_score_)
-print("Meilleur estimateur pour la régression Ridge : ", Ridge_gscv.best_estimator_)
-print("Meilleur index pour la régression Ridge : ", Ridge_gscv.best_index_)
-print("Meilleur score de validation croisée pour la régression Ridge : ", Ridge_gscv.best_score_)
-print("Meilleur score de test pour la régression Ridge : ", Ridge_gscv.score(x_test, y_test))
-
-
-# Créer un objet de modèle de régression Lasso
-Lasso2 = Lasso()
-
-# Créer un dictionnaire de valeurs d'hyperparamètres
-param_grid = {'alpha': np.arange(0, 1, 0.1)}
-
-# Créer un objet de recherche sur grille
-Lasso_gscv = GridSearchCV(Lasso2, param_grid, cv=5)
-
-# Ajuster l'objet de recherche sur grille aux données d'entraînement
-Lasso_gscv.fit(x_train, y_train)
-
-# Afficher les meilleurs paramètres après optimisation
-print("\nMeilleurs paramètres pour la régression Lasso : ", Lasso_gscv.best_params_)
-print("Meilleur score pour la régression Lasso : ", Lasso_gscv.best_score_)
-print("Meilleur estimateur pour la régression Lasso : ", Lasso_gscv.best_estimator_)
-print("Meilleur index pour la régression Lasso : ", Lasso_gscv.best_index_)
-print("Meilleur score de validation croisée pour la régression Lasso : ", Lasso_gscv.best_score_)
-print("Meilleur score de test pour la régression Lasso : ", Lasso_gscv.score(x_test, y_test))
+# # Afficher les meilleurs paramètres après optimisation
+# print("Meilleurs paramètres pour la régression Ridge : ", Ridge_gscv.best_params_)
+# print("Meilleur score pour la régression Ridge : ", Ridge_gscv.best_score_)
+# print("Meilleur estimateur pour la régression Ridge : ", Ridge_gscv.best_estimator_)
+# print("Meilleur index pour la régression Ridge : ", Ridge_gscv.best_index_)
+# print("Meilleur score de validation croisée pour la régression Ridge : ", Ridge_gscv.best_score_)
+# print("Meilleur score de test pour la régression Ridge : ", Ridge_gscv.score(x_test, y_test))
 
 
-# Créer un objet de modèle de régression k-NN
-knn2 = KNeighborsRegressor()
+# # Créer un objet de modèle de régression Lasso
+# Lasso2 = Lasso()
 
-# Créer un dictionnaire de valeurs d'hyperparamètres
-param_grid = {'n_neighbors': np.arange(1, 25)}
+# # Créer un dictionnaire de valeurs d'hyperparamètres
+# param_grid = {'alpha': np.arange(0, 1, 0.1)}
 
-# Créer un objet de recherche sur grille
-knn_gscv = GridSearchCV(knn2, param_grid, cv=5)
+# # Créer un objet de recherche sur grille
+# Lasso_gscv = GridSearchCV(Lasso2, param_grid, cv=5)
 
-# Ajuster l'objet de recherche sur grille aux données d'entraînement
-knn_gscv.fit(x_train, y_train)
+# # Ajuster l'objet de recherche sur grille aux données d'entraînement
+# Lasso_gscv.fit(x_train, y_train)
 
-# Afficher les meilleurs paramètres après optimisation
-print("\nMeilleurs paramètres pour la méthode des k-NN : ", knn_gscv.best_params_)
-print("Meilleur score pour la méthode des k-NN : ", knn_gscv.best_score_)
-print("Meilleur estimateur pour la méthode des k-NN : ", knn_gscv.best_estimator_)
-print("Meilleur index pour la méthode des k-NN : ", knn_gscv.best_index_)
-print("Meilleur score de validation croisée pour la méthode des k-NN : ", knn_gscv.best_score_)
-print("Meilleur score de test pour la méthode des k-NN : ", knn_gscv.score(x_test, y_test))
+# # Afficher les meilleurs paramètres après optimisation
+# print("\nMeilleurs paramètres pour la régression Lasso : ", Lasso_gscv.best_params_)
+# print("Meilleur score pour la régression Lasso : ", Lasso_gscv.best_score_)
+# print("Meilleur estimateur pour la régression Lasso : ", Lasso_gscv.best_estimator_)
+# print("Meilleur index pour la régression Lasso : ", Lasso_gscv.best_index_)
+# print("Meilleur score de validation croisée pour la régression Lasso : ", Lasso_gscv.best_score_)
+# print("Meilleur score de test pour la régression Lasso : ", Lasso_gscv.score(x_test, y_test))
 
 
-# Créer un objet de modèle d'arbre de décision
-tree2 = DecisionTreeRegressor()
+# # Créer un objet de modèle de régression k-NN
+# knn2 = KNeighborsRegressor()
 
-# Créer un dictionnaire de valeurs d'hyperparamètres
-param_grid = {'max_depth': np.arange(1, 25)}
+# # Créer un dictionnaire de valeurs d'hyperparamètres
+# param_grid = {'n_neighbors': np.arange(1, 25)}
 
-# Créer un objet de recherche sur grille
-tree_gscv = GridSearchCV(tree2, param_grid, cv=5)
+# # Créer un objet de recherche sur grille
+# knn_gscv = GridSearchCV(knn2, param_grid, cv=5)
 
-# Ajuster l'objet de recherche sur grille aux données d'entraînement
-tree_gscv.fit(x_train, y_train)
+# # Ajuster l'objet de recherche sur grille aux données d'entraînement
+# knn_gscv.fit(x_train, y_train)
 
-# Afficher les meilleurs paramètres après optimisation
-print("\nMeilleurs paramètres pour l'arbre de décision : ", tree_gscv.best_params_)
-print("Meilleur score pour l'arbre de décision : ", tree_gscv.best_score_)
-print("Meilleur estimateur pour l'arbre de décision : ", tree_gscv.best_estimator_)
-print("Meilleur index pour l'arbre de décision : ", tree_gscv.best_index_)
-print("Meilleur score de validation croisée pour l'arbre de décision : ", tree_gscv.best_score_)
-print("Meilleur score de test pour l'arbre de décision : ", tree_gscv.score(x_test, y_test))
+# # Afficher les meilleurs paramètres après optimisation
+# print("\nMeilleurs paramètres pour la méthode des k-NN : ", knn_gscv.best_params_)
+# print("Meilleur score pour la méthode des k-NN : ", knn_gscv.best_score_)
+# print("Meilleur estimateur pour la méthode des k-NN : ", knn_gscv.best_estimator_)
+# print("Meilleur index pour la méthode des k-NN : ", knn_gscv.best_index_)
+# print("Meilleur score de validation croisée pour la méthode des k-NN : ", knn_gscv.best_score_)
+# print("Meilleur score de test pour la méthode des k-NN : ", knn_gscv.score(x_test, y_test))
+
+
+# # Créer un objet de modèle d'arbre de décision
+# tree2 = DecisionTreeRegressor()
+
+# # Créer un dictionnaire de valeurs d'hyperparamètres
+# param_grid = {'max_depth': np.arange(1, 25)}
+
+# # Créer un objet de recherche sur grille
+# tree_gscv = GridSearchCV(tree2, param_grid, cv=5)
+
+# # Ajuster l'objet de recherche sur grille aux données d'entraînement
+# tree_gscv.fit(x_train, y_train)
+
+# # Afficher les meilleurs paramètres après optimisation
+# print("\nMeilleurs paramètres pour l'arbre de décision : ", tree_gscv.best_params_)
+# print("Meilleur score pour l'arbre de décision : ", tree_gscv.best_score_)
+# print("Meilleur estimateur pour l'arbre de décision : ", tree_gscv.best_estimator_)
+# print("Meilleur index pour l'arbre de décision : ", tree_gscv.best_index_)
+# print("Meilleur score de validation croisée pour l'arbre de décision : ", tree_gscv.best_score_)
+# print("Meilleur score de test pour l'arbre de décision : ", tree_gscv.score(x_test, y_test))
 
 
 
