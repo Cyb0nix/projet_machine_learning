@@ -13,8 +13,8 @@ import sklearn.cluster as skc #machine learning (clustering)
 
 
 # Importation du dataset
-df = pd.read_csv('C:\Arthur\Efrei Paris\L3\Semestre 6\Intro apprentissage machine\Projet\projet_machine_learning\Data\Data_X.csv')
-Y = pd.read_csv('C:\Arthur\Efrei Paris\L3\Semestre 6\Intro apprentissage machine\Projet\projet_machine_learning\Data\Data_Y.csv')
+df = pd.read_csv('\Data\Data_X.csv')
+Y = pd.read_csv('\Data\Data_Y.csv')
 
 
 ####################################
