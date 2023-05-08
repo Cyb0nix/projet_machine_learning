@@ -30,6 +30,7 @@ print("\nNbr valeur null : \n", df.isnull().sum())
 #supprimer varable inutile
 df.drop(['COUNTRY'], axis=1, inplace=True) 
 df.drop(['DAY_ID'], axis=1, inplace=True) 
+df.drop(['ID'], axis=1, inplace=True)
 df.drop(['FR_TEMP'], axis=1, inplace=True) 
 df.drop(['DE_TEMP'], axis=1, inplace=True) 
 df.drop(['FR_RAIN'], axis=1, inplace=True)
@@ -139,7 +140,6 @@ lin.fit(x_train, y_train)
 
 # Faire des prédictions sur les données de test
 yLin_pred = lin.predict(x_test)
-print("Linear score : ", lin.score(x_test, y_test))
 
 
 
@@ -153,7 +153,6 @@ Ridge.fit(x_train, y_train)
 
 # Faire des prédictions sur les données de test
 yRidge_pred = Ridge.predict(x_test)
-print("Ridge score : ", Ridge.score(x_test, y_test))
 
 
 
@@ -167,7 +166,6 @@ Lasso.fit(x_train, y_train)
 
 # Faire des prédictions sur les données de test
 yLasso_pred = Lasso.predict(x_test)
-print("Lasso score : ", Lasso.score(x_test, y_test))
 
 
 
@@ -181,7 +179,6 @@ knn.fit(x_train, y_train)
 
 # Faire des prédictions sur les données de test
 yKNN_pred = knn.predict(x_test)
-print("k-NN score : ", knn.score(x_test, y_test))
 
 
 
@@ -195,7 +192,6 @@ reg.fit(x_train, y_train)
 
 # Faire des prédictions sur les données de test
 yTree_pred = reg.predict(x_test)
-print("Decision Tree score : ", reg.score(x_test, y_test))
 
 
 #######################################
