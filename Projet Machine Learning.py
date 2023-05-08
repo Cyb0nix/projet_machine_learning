@@ -10,12 +10,12 @@ matplotlib.use('TkAgg')
 from sklearn.preprocessing import MinMaxScaler #data normalization
 from sklearn.model_selection import train_test_split #data split
 import sklearn.cluster as skc #machine learning (clustering)
-import warnings # ignore warnings
-warnings.filterwarnings('ignore')
+
 
 # Importation du dataset
-df = pd.read_csv('C:\Arthur\Efrei Paris\L3\Semestre 6\Intro apprentissage machine\Projet\projet_machine_learning\Data\Data_X.csv')
-Y = pd.read_csv('C:\Arthur\Efrei Paris\L3\Semestre 6\Intro apprentissage machine\Projet\projet_machine_learning\Data\Data_Y.csv')
+df = pd.read_csv('Data\Data_X.csv')
+Y = pd.read_csv('Data\Data_Y.csv')
+
 
 ####################################
 ###### Péparation des données ######
@@ -111,10 +111,6 @@ print(df_fill.info())
 # plt.show()
 
 
-###### INTERPRETATION DES RESULTATS DE L'EDA ######
-# TODO: Interpréter les résultats de l’EDA pour identifier les caractéristiques importantes qui influencent le prix de l’électricité et les relations significatives entre les variables
-
-
 #######################################
 ###### MODELISATION DES DONNEES  ######
 #######################################
@@ -174,7 +170,7 @@ print("Lasso score : ", Lasso.score(x_test, y_test))
 ###### Méthode régression k-NN ######
 
 # Créer un objet de modèle de régression k-NN
-knn = KNeighborsRegressor(n_neighbors=5)
+knn = KNeighborsRegressor(n_neighbors=8)
 
 # Entraîner le modèle sur les données d'entraînement
 knn.fit(x_train, y_train)
@@ -199,7 +195,7 @@ print("Decision Tree score : ", reg.score(x_test, y_test))
 
 
 #######################################
-###### Evaluation des méthodes  ######
+######  Evaluation des méthodes  ######
 #######################################
 
 from sklearn.metrics import mean_squared_error #evaluation metrics
@@ -248,6 +244,98 @@ rho, pval = spearmanr(y_test, yTree_pred)
 print("\nSpearman pour l'arbre de décision : ")
 print("rho : \n", rho)
 print("pval \n: ", pval)
+
+###################################################################
+######  Optimisation des hyperparamètres pour la régression  ######
+###################################################################
+
+from sklearn.model_selection import GridSearchCV
+
+# Créer un objet de modèle de régression Ridge
+Ridge2 = Ridge()
+
+# Créer un dictionnaire de valeurs d'hyperparamètres
+param_grid = {'alpha': np.arange(0, 1, 0.1)}
+
+# Créer un objet de recherche sur grille
+Ridge_gscv = GridSearchCV(Ridge2, param_grid, cv=5)
+
+# Ajuster l'objet de recherche sur grille aux données d'entraînement
+Ridge_gscv.fit(x_train, y_train)
+
+# Afficher les meilleurs paramètres après optimisation
+print("Meilleurs paramètres pour la régression Ridge : ", Ridge_gscv.best_params_)
+print("Meilleur score pour la régression Ridge : ", Ridge_gscv.best_score_)
+print("Meilleur estimateur pour la régression Ridge : ", Ridge_gscv.best_estimator_)
+print("Meilleur index pour la régression Ridge : ", Ridge_gscv.best_index_)
+print("Meilleur score de validation croisée pour la régression Ridge : ", Ridge_gscv.best_score_)
+print("Meilleur score de test pour la régression Ridge : ", Ridge_gscv.score(x_test, y_test))
+
+
+# Créer un objet de modèle de régression Lasso
+Lasso2 = Lasso()
+
+# Créer un dictionnaire de valeurs d'hyperparamètres
+param_grid = {'alpha': np.arange(0, 1, 0.1)}
+
+# Créer un objet de recherche sur grille
+Lasso_gscv = GridSearchCV(Lasso2, param_grid, cv=5)
+
+# Ajuster l'objet de recherche sur grille aux données d'entraînement
+Lasso_gscv.fit(x_train, y_train)
+
+# Afficher les meilleurs paramètres après optimisation
+print("\nMeilleurs paramètres pour la régression Lasso : ", Lasso_gscv.best_params_)
+print("Meilleur score pour la régression Lasso : ", Lasso_gscv.best_score_)
+print("Meilleur estimateur pour la régression Lasso : ", Lasso_gscv.best_estimator_)
+print("Meilleur index pour la régression Lasso : ", Lasso_gscv.best_index_)
+print("Meilleur score de validation croisée pour la régression Lasso : ", Lasso_gscv.best_score_)
+print("Meilleur score de test pour la régression Lasso : ", Lasso_gscv.score(x_test, y_test))
+
+
+# Créer un objet de modèle de régression k-NN
+knn2 = KNeighborsRegressor()
+
+# Créer un dictionnaire de valeurs d'hyperparamètres
+param_grid = {'n_neighbors': np.arange(1, 25)}
+
+# Créer un objet de recherche sur grille
+knn_gscv = GridSearchCV(knn2, param_grid, cv=5)
+
+# Ajuster l'objet de recherche sur grille aux données d'entraînement
+knn_gscv.fit(x_train, y_train)
+
+# Afficher les meilleurs paramètres après optimisation
+print("\nMeilleurs paramètres pour la méthode des k-NN : ", knn_gscv.best_params_)
+print("Meilleur score pour la méthode des k-NN : ", knn_gscv.best_score_)
+print("Meilleur estimateur pour la méthode des k-NN : ", knn_gscv.best_estimator_)
+print("Meilleur index pour la méthode des k-NN : ", knn_gscv.best_index_)
+print("Meilleur score de validation croisée pour la méthode des k-NN : ", knn_gscv.best_score_)
+print("Meilleur score de test pour la méthode des k-NN : ", knn_gscv.score(x_test, y_test))
+
+
+# Créer un objet de modèle d'arbre de décision
+tree2 = DecisionTreeRegressor()
+
+# Créer un dictionnaire de valeurs d'hyperparamètres
+param_grid = {'max_depth': np.arange(1, 25)}
+
+# Créer un objet de recherche sur grille
+tree_gscv = GridSearchCV(tree2, param_grid, cv=5)
+
+# Ajuster l'objet de recherche sur grille aux données d'entraînement
+tree_gscv.fit(x_train, y_train)
+
+# Afficher les meilleurs paramètres après optimisation
+print("\nMeilleurs paramètres pour l'arbre de décision : ", tree_gscv.best_params_)
+print("Meilleur score pour l'arbre de décision : ", tree_gscv.best_score_)
+print("Meilleur estimateur pour l'arbre de décision : ", tree_gscv.best_estimator_)
+print("Meilleur index pour l'arbre de décision : ", tree_gscv.best_index_)
+print("Meilleur score de validation croisée pour l'arbre de décision : ", tree_gscv.best_score_)
+print("Meilleur score de test pour l'arbre de décision : ", tree_gscv.score(x_test, y_test))
+
+
+
 
 
 
