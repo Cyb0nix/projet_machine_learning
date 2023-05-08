@@ -146,7 +146,7 @@ print("Linear score : ", lin.score(x_test, y_test))
 ###### Régression Ridge ######
 
 # Créer un objet de modèle de régression Ridge
-Ridge = Ridge(alpha=1) 
+Ridge = Ridge(alpha=0.1) 
 
 # Entraîner le modèle sur les données d'entraînement
 Ridge.fit(x_train, y_train)
@@ -160,7 +160,7 @@ print("Ridge score : ", Ridge.score(x_test, y_test))
 ###### Régression Lasso ######
 
 # Créer un objet de modèle de régression Lasso
-Lasso = Lasso(alpha=1)
+Lasso = Lasso(alpha=0.1)
 
 # Entraîner le modèle sur les données d'entraînement
 Lasso.fit(x_train, y_train)
@@ -224,11 +224,30 @@ print("R2 pour l'arbre de décision : ", r2_score(y_test, yTree_pred))
 
 
 # Calculer la correlation de sperman
-print("\nSpearman pour la régression linéaire : ", spearmanr(y_test, yLin_pred))
-print("Spearman pour la régression Ridge : ", spearmanr(y_test, yRidge_pred))
-print("Spearman pour la régression Lasso : ", spearmanr(y_test, yLasso_pred))
-print("Spearman pour la méthode des k-NN : ", spearmanr(y_test, yKNN_pred))
-print("Spearman pour l'arbre de décision : ", spearmanr(y_test, yTree_pred))
+rho, pval = spearmanr(y_test, yLin_pred)
+print("\nSpearman pour la régression linéaire : ")
+print("rho : \n", rho)
+print("pval : \n", pval)
+
+rho, pval = spearmanr(y_test, yRidge_pred)
+print("\nSpearman pour la régression Ridge : ")
+print("rho : \n", rho)
+print("pval : \n", pval)
+
+rho, pval = spearmanr(y_test, yLasso_pred)
+print("\nSpearman pour la régression Lasso : ")
+print("rho : \n", rho)
+print("pval : \n", pval)
+
+rho, pval = spearmanr(y_test, yKNN_pred)
+print("\nSpearman pour la méthode des k-NN : ")
+print("rho : \n", rho)
+print("pval : \n", pval)
+
+rho, pval = spearmanr(y_test, yTree_pred)
+print("\nSpearman pour l'arbre de décision : ")
+print("rho : \n", rho)
+print("pval \n: ", pval)
 
 
 
